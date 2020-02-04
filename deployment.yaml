@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secret-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: secret-test
+  template:
+    metadata:
+      labels:
+        app: secret-test
+    spec:
+      containers:
+        - name: secret-test
+          image: shashankfrost/dummy:0.1.1-alpha
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: test
+
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-cred
+                  key: host
+
+            - name: MYSQL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-cred
+                  key: port
+
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-cred
+                  key: username
+
+            - name: MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-cred
+                  key: password
+
+      imagePullSecrets:
+        - name: sha-docker-secret
