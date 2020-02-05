@@ -15,34 +15,63 @@ spec:
     spec:
       containers:
         - name: secret-test
-          image: shashankfrost/dummy:0.1.1-alpha
+          image: shashankfrost/dummy:mongodb
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: test
 
-            - name: MYSQL_HOST
+            - name: MONGODB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: mysql-cred
+                  name: mongodb-cred
                   key: host
 
-            - name: MYSQL_PORT
+            - name: MONGODB_PORT
               valueFrom:
                 secretKeyRef:
-                  name: mysql-cred
+                  name: mongodb-cred
                   key: port
 
-            - name: MYSQL_USER
+            - name: MONGODB_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-cred
+                  name: mongodb-cred
                   key: username
 
-            - name: MYSQL_PWD
+            - name: MONGODB_PWD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-cred
+                  name: mongodb-cred
                   key: password
+
+            - name: MONGODB_AUTH_DB
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-cred
+                  key: auth_db
+#            - name: MYSQL_HOST
+#              valueFrom:
+#                secretKeyRef:
+#                  name: mysql-cred
+#                  key: host
+#
+#            - name: MYSQL_PORT
+#              valueFrom:
+#                secretKeyRef:
+#                  name: mysql-cred
+#                  key: port
+#
+#            - name: MYSQL_USER
+#              valueFrom:
+#                secretKeyRef:
+#                  name: mysql-cred
+#                  key: username
+#
+#            - name: MYSQL_PWD
+#              valueFrom:
+#                secretKeyRef:
+#                  name: mysql-cred
+#                  key: password
 
       imagePullSecrets:
         - name: sha-docker-secret
